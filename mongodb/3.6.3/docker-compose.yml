@@ -1,7 +1,7 @@
 version: '3'
 services:
   mongo:
-    container_name: wxcsdb88-mongodb
+    container_name: futurever-mongodb
     restart: always
     image: futurever/mongo:3.6.3
     command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
