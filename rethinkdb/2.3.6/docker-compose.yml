@@ -1,0 +1,15 @@
+version: '3'
+services:
+  rethinkdb-for-test:
+    container_name: futurever-rethinkdb
+    restart: always
+    image: futurever/rethinkdb:2.3.6
+    command: rethinkdb --bind all 
+    #command: rethinkdb --bind all --config-file /etc/rethinkdb/instances.d/default.conf --canonical-address 127.0.0.1
+    ports:
+        - "0.0.0.0:8080:8080" 
+        - "0.0.0.0:28015:28015" 
+        - "0.0.0.0:29015:29015" 
+    volumes:
+      - /data/docker-rethinkdb:/data:Z
+    #- /data/docker-rethinkdb/rethinkdb_conf/rethinkdb.conf:/etc/rethinkdb/instances.d/default.conf
