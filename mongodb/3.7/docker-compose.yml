@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mongo:
+    container_name: futurever-mongodb
+    restart: always
+    image: futurever/mongo:3.7
+    command: mongod --config /etc/mongod.conf
+    environment: 
+      - TZ=Asia/Shanghai
+    ports:
+      - "27017:27017" 
+    volumes:
+      - /data/mongodb/db:/data/db
+        #- /usr/share/zoneinfo/Asia/Shanghai:/usr/share/zoneinfo/Asia/Shanghai:ro
+      #- /data/mongodb/configdb:/data/configdb
+      - /data/mongodb/conf/mongod.conf:/etc/mongod.conf
