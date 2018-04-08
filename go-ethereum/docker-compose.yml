@@ -1,0 +1,18 @@
+version: '3'
+services:
+  go-ethereum:
+    container_name: go-ethereum-node
+    restart: always
+    image: ethereum/client-go:latest
+    command: ethereum/client-go #start node
+    #command: ethereum/client-go console #use interactive JavaScript console
+    #command: ethereum/client-go --syncmode light  #start light node
+    #command: ethereum/client-go --rpc #start a node that runs the JSON-RPC port 8545 
+    #command: ethereum/client-go console --datadir "/ethereum-dir"  #use interactive JavaScript console
+    ports:
+      - "0.0.0.0:30303:30303" 
+      - "0.0.0.0:8545:8545" 
+    volumes:
+        #- /data/go-ethereum/ethereum:/root/.ethereum:Z
+        #- /data/go-ethereum/ethash:/root/.ethash:Z
+        - /data/go-ethereum/ethereum:/root:Z
