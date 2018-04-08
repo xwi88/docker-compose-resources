@@ -1,0 +1,23 @@
+version: '3'
+services:
+  influxdb:
+    container_name: futurever-influxdb-1.5.1
+    restart: always
+    image: futurever/influxdb:1.5.1
+    environment: 
+      - INFLUXDB_BIND_ADDRESS=0.0.0.0:9088  #RPC service for backup and restore
+      - INFLUXDB_HTTP_AUTH_ENABLED=true
+      - INFLUXDB_HTTP_REALM=InfluxDB
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin123
+      - INFLUXDB_DB=inifluxdb
+      - INFLUXDB_USER=test
+      - INFLUXDB_USER_PASSWORD=test123
+    ports:
+      - "8086:8086"  #http port
+      - "8089:8089"  #udp port 
+    #- "9088:9088"   
+    volumes:
+      - /data/influxdb/data:/var/lib/influxdb
+      - /data/influxdb/config/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+    command: -config /etc/influxdb/influxdb.conf
