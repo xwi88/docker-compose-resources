@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: futurever-mysql-8.0.11
+    image: futurever/mysql:8.0.11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      # MYSQL_DATABASE
+      # MYSQL_USER
+      # MYSQL_PASSWORD
+      # MYSQL_ALLOW_EMPTY_PASSWORD
+      # MYSQL_RANDOM_ROOT_PASSWORD
+      # MYSQL_ONETIME_PASSWORD
+      # MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root
+    volumes:
+      - /data/mysql/config:/etc/mysql/conf.d
+      - /data/mysql/data:/var/lib/mysql
+      # - /data/mysql/my.cnf and /etc/mysql/conf.d/config-file.cnf
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
