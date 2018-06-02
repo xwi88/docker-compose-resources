@@ -1,0 +1,6 @@
+
+.vscode
+
+mysql/**/data/
+mysql/data
+!mysql/**/data/myapp.sql

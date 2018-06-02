@@ -1,0 +1,61 @@
+version: '3.1'
+
+services:
+  mysql-5.7:
+    container_name: futurever-mysql-5.7-test
+    image: futurever/mysql:5.7.22
+    restart: always
+    ports:
+      - 3327:3306
+    environment:
+      TZ: UTC # system_time_zone, if set time_zone should in my.cnf set default-time-zone = '+0:00'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - ./data/mysql57:/var/lib/mysql
+      - ./5.7/config:/etc/mysql/conf.d
+
+  mysql-8.0:
+    container_name: futurever-mysql-8.0-test
+    image: futurever/mysql:8.0.11
+    restart: always
+    ports:
+      - 3328:3306
+    environment:
+      TZ: UTC # system_time_zone, if set time_zone should in my.cnf set default-time-zone = '+0:00'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - ./data/mysql80:/var/lib/mysql
+      - ./8.0/config:/etc/mysql/conf.d
+
+  mariadb-10.3:
+    container_name: futurever-mariadb-10.3-test
+    image: futurever/mariadb:10.3.7
+    restart: always
+    ports:
+      - 3329:3306
+    environment:
+      TZ: UTC # system_time_zone, if set time_zone should in my.cnf set default-time-zone = '+0:00'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - ./data/mariadb103:/var/lib/mysql
+      - ./mariadb10.3:/etc/mysql/conf.d
+
+  adminer:
+    container_name: futurever-adminer-latest-test
+    image: futurever/adminer:latest
+    restart: always
+    ports:
+      - 3330:8080
+    depends_on:
+      - "mysql-5.7"
+      - "mysql-8.0"
+      - "mariadb-10.3"

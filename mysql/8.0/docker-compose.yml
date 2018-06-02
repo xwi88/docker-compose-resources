@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  mysql-8.0:
+    container_name: futurever-mysql-8.0
+    image: futurever/mysql:8.0.11
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      TZ: UTC # system_time_zone, if set time_zone should in my.cnf set default-time-zone = '+0:00'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      # MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      # MYSQL_RANDOM_ROOT_PASSWORD
+      # MYSQL_ONETIME_PASSWORD
+      # MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root
+      # MYSQL_TCP_PORT
+      # MYSQL_UNIX_PORT
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./config:/etc/mysql/conf.d
+    # command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci #设置utf8字符集
+
