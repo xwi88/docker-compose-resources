@@ -4,3 +4,6 @@
 mysql/**/data/
 mysql/data
 !mysql/**/data/myapp.sql
+
+redis/**/data/
+redis/data
