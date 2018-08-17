@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  registry-https-2.6.2:
+    container_name: futurever-registry-2.6.2
+    image: futurever/registry:2.6.2
+    restart: always
+    # If you want to change the port the registry listens on within the container, 
+    # you can use the environment variable REGISTRY_HTTP_ADDR to change it
+    environment:  
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443 # if want modify the default port
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+    ports:
+      - 443:443
+    volumes:
+    # /mnt/registry:/var/lib/registry
+      - /data/registry:/var/lib/registry
+      - ./certs:/certs
