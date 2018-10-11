@@ -22,6 +22,12 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_NUM_PARTITIONS: 3
       KAFKA_DEFAULT_REPLICATION_FACTOR: 1 # replication nums
+      # KAFKA_PARTITION_ASSIGNMENT_STRATEGY: "range" # range roundrobin
+      KAFKA_PARTITION_ASSIGNMENT_STRATEGY: "roundrobin" # range roundrobin
+      KAFKA_AUTO_OFFSET_RESET: "earliest" # "latest" "earliest"
+      # KAFKA_ENABLE_AUTO_COMMIT: "false" # default true
+      # KAFKA_AUTO_COMMIT_INTERVAL_MS: 1000 # if auto commit true, should set
+      # KAFKA_SESSION_TIMEOUT_MS: 3000 # default 3s
       KAFKA_ADVERTISED_LISTENERS: INSIDE://127.0.0.1:9092
       KAFKA_LISTENERS: INSIDE://:9092
       # KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
