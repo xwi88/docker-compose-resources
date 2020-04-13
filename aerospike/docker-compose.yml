@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+    web:
+        build: .
+        ports:
+          - "5000:5000"
+        links:
+          - aerospike
+        hostname: dev.awesome-counter.com
+        environment:
+          - AEROSPIKE_HOST=aerospike
+    aerospike:
+        image: aerospike/aerospike-server
+        ports:
+          - "3000:3000"
+        volumes: 
+          - $PWD:/opt/aerospike/etc
