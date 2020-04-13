@@ -1,6 +1,8 @@
 version: '3.7'
 services:
     web:
+        depends_on: 
+          - aerospike
         build: .
         ports:
           - "5000:5000"
@@ -10,8 +12,11 @@ services:
         environment:
           - AEROSPIKE_HOST=aerospike
     aerospike:
+        container_name: aerospike_server
         image: aerospike/aerospike-server
         ports:
           - "3000:3000"
         volumes: 
-          - $PWD:/opt/aerospike/etc
+          - $PWD/conf:/opt/aerospike/conf
+          - $PWD/data:/opt/aerospike/data
+        # command: [ "--config-file","/opt/aerospike/conf/astools.conf"]
