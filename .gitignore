@@ -11,3 +11,5 @@ redis/data
 */temp/
 */data/
 */test/
+**/data/
+nexus/nexus-data
