@@ -5,13 +5,15 @@ services:
     container_name: nexus3
     environment:
       INSTALL4J_ADD_VM_PARAMS: "-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g  -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
+      privileged: 1
+      TZ: "Asia/Shanghai"
     ports:
       - "8081:8081"  # nexus ui
       - "9091:9091"  # proxy 代理仓库， pull
       - "9092:9092"  # docker(hosted)私有仓库，pull & push
     volumes:
       - ./nexus-data:/nexus-data
-      - /etc/localtime:/etc/localtime:ro
+      # - /etc/localtime:/etc/localtime:ro # 可能存在权限问题
     logging:
       driver: "json-file"
       options:
