@@ -1,11 +1,15 @@
-version: "3"
+version: "3.8"
 services:
   nexus3:
-    image: sonatype/nexus3
+    image: sonatype/nexus3:3.23.0
+    # image: sonatype/nexus3
     container_name: nexus3
+    init: true
+    env_file:
+      - .env
     environment:
       INSTALL4J_ADD_VM_PARAMS: "-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g  -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
-      privileged: 1
+      privileged: 'true'
       TZ: "Asia/Shanghai"
     ports:
       - "8081:8081"  # nexus ui
@@ -13,10 +17,12 @@ services:
       - "9092:9092"  # docker(hosted)私有仓库，pull & push
     volumes:
       - ./nexus-data:/nexus-data
-      # - /etc/localtime:/etc/localtime:ro # 可能存在权限问题
     logging:
       driver: "json-file"
       options:
-        max-size: "10k"
+        max-size: "512k"
         max-file: "10"
     restart: always
+    # restart: "no"
+    # restart: on-failure
+    # restart: unless-stopped
