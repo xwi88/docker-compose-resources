@@ -13,3 +13,4 @@ redis/data
 */test/
 **/data/
 nexus/nexus-data
+.DS_Store

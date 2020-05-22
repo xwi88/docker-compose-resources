@@ -5,9 +5,20 @@
 ### 环境参考
 
 - MAC OS: Mojave 10.14.3
-- Docker Desktop: 2.3.1.0
+- Docker Desktop Version: **2.3.1.0**, Channel: **edge**
 - Engine: 19.03.8
 - Compose: 1.26.0-rc4
+
+#### docker-compose
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+
+# sudo rm /usr/local/bin/docker-compose
+```
 
 ### 启动
 
