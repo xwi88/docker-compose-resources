@@ -22,7 +22,11 @@ docker-compose --version
 
 ### 启动
 
-`docker-compose up`
+```bash
+mkdir nexus-data && chown -R 200 nexus-data
+
+docker-compose up
+```
 
 密码见: `./nexus-data/admin.password`, 格式如: `37f441ab-ffbf-42d4-a955-3f0686187c23`
 
