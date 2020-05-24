@@ -12,6 +12,7 @@
 #### docker-compose
 
 ```bash
+#sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
@@ -20,10 +21,117 @@ docker-compose --version
 # sudo rm /usr/local/bin/docker-compose
 ```
 
-### 启动
+#### CentOS7 Docker 安装 yum
+
+- [Linus](https://docs.docker.com/engine/install/centos/)
+- [docker ce packages](https://download.docker.com/linux/centos/7/x86_64/edge/Packages/)
 
 ```bash
-mkdir nexus-data && chown -R 200 nexus-data
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+sudo yum install -y yum-utils
+
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+# yum list docker-ce --showduplicates | sort -r
+# sudo yum install docker-ce-<VERSION_STRING> docker-ce-cli-<VERSION_STRING> containerd.io
+
+# start docker
+# sudo systemctl start docker
+sudo systemctl start docker.service
+
+# run hello-world
+sudo docker run hello-world
+
+# systemctl cat docker
+
+# systemctl cat docker
+
+vi /etc/systemd/system/docker.service.d/hosts.conf
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2736
+
+systemctl daemon-reload
+
+systemctl restart docker.service
+```
+
+#### CentOS7 Docker 安装 rpm
+
+```bash
+https://download.docker.com/linux/centos/7/x86_64/edge/Packages/
+
+sudo yum install /path/to/package.rpm
+
+sudo systemctl start docker
+sudo docker run hello-world
+```
+
+### Linux 可能的配置
+
+>https://docs.docker.com/engine/install/linux-postinstall/
+
+```bash
+#数据持久化
+
+# 1. Use a docker volume. Since docker volumes are persistent, a volume can be created specifically for this purpose. This is the recommended approach.
+docker volume create --name nexus-data
+# sudo systemctl restart docker
+docker-compose up
+
+# 2. Mount a host directory as the volume. This is not portable, as it relies on the directory existing with correct permissions on the host. However it can be useful in certain situations where this volume needs to be assigned to certain specific underlying storage.
+
+mkdir ./nexus-data && chown -R 200 ./nexus-data
+# sudo systemctl restart docker
+docker-compose up
+
+
+sudo systemctl enable docker
+
+# sudo systemctl disable docker
+
+## disable upstart
+# echo manual | sudo tee /etc/init/docker.override
+
+sudo chkconfig docker on
+
+# ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?
+#
+# If it's at a non-standard location, specify the URL with the DOCKER_HOST environment variable.
+
+# export DOCKER_HOST=127.0.0.1:2375
+
+
+
+# sudo ls -la /var/run/docker.sock
+# sudo chmod 666 /var/run/docker.sock
+
+sudo groupadd docker
+sudo usermod -aG docker ${USER}
+sudo chmod 666 /var/run/docker.sock
+sudo chown root:docker /var/run/docker.sock
+
+sudo chown -R root:docker /home/data
+
+# sudo dockerd # 镜像位置配置使用: data-root, 旧的使用 graph
+
+sudo service docker restart
+sudo service docker status
+
+# systemctl status docker.service
 
 docker-compose up
 ```
@@ -107,9 +215,10 @@ Storage:
     Blob Store: docker-hub-group
 ```
 
-## 配置修改
+### 配置修改
 
->创建或修改 `/etc/docker/daemon.json` 或 `~/.docker/daemon.json`
+>- 创建或修改 `/etc/docker/daemon.json` 或 `~/.docker/daemon.json`
+>- `dockerd` 将使用`data-root` 替换 `graph`
 
 ```json
 {
@@ -124,7 +233,8 @@ Storage:
         "https://docker.mirrors.ustc.edu.cn",
         "https://reg-mirror.qiniu.com",
         "https://dockerhub.azk8s.cn"
-    ]
+    ],
+    "graph-root": "/home/data/docker"
 }
 ```
 
@@ -160,6 +270,14 @@ Storage:
 Name: go-proxy-group
 Storage:
     Blob Store: go-group
+```
+
+### GOPROXY 配置修改
+
+```bash
+# GOPROXY=https://mirrors.aliyun.com/goproxy,https://goproxy.cn,https://goproxy.io,https://gocenter.io,https://proxy.golang.org,direct
+
+GOPROXY=http://10.14.41.53:8081,https://mirrors.aliyun.com/goproxy,https://goproxy.cn,https://goproxy.io,https://gocenter.io,https://proxy.golang.org,direct
 ```
 
 ### Usage

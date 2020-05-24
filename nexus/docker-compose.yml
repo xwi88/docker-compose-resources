@@ -4,12 +4,12 @@ services:
     image: sonatype/nexus3:3.23.0
     # image: sonatype/nexus3
     container_name: nexus3
+    privileged: true
     init: true
     env_file:
       - .env
     environment:
       INSTALL4J_ADD_VM_PARAMS: "-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g  -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
-      privileged: 'true'
       TZ: "Asia/Shanghai"
     ports:
       - "8081:8081"  # nexus ui
