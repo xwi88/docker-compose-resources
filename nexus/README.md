@@ -140,6 +140,10 @@ docker-compose up
 
 我们改为: admin123
 
+>避免遗忘，可以添加另外的管理员账号
+
+`xwi88:xwi88123`
+
 ### 端口分配
 
 - `8081:8081` **WEB UI**
@@ -302,4 +306,27 @@ docker pull 127.0.0.1:9092/kafka
 # 推送镜像 9092
 docker tag xxxx 127.0.0.1:9092/xxxx:version
 docker push 127.0.0.1:9092/xxxx:version
+```
+
+## Maven
+
+>remote storage list
+
+|Name|Remote storage|是否配置|Blob|Desc|
+|:---|:---|:---|:---|:---|
+|maven-jcenter|http://jcenter.bintray.com/|Y|maven2|JCenter|
+|maven-central|https://repo1.maven.org/maven2/|N|maven2|maven central|
+|maven-aliyun|http://maven.aliyun.com/nexus/content/groups/public/|Y|maven2|阿里云|
+
+### JCenter Proxy
+
+```bash
+Name: JCenter
+Maven2:
+    Version policy: Release
+Proxy:
+    Remote storage: http://jcenter.bintray.com/
+    Maximum component age: -1
+Storage:
+    Blob Store: maven-proxy
 ```
