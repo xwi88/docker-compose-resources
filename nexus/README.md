@@ -281,7 +281,7 @@ Storage:
 ```bash
 # GOPROXY=https://mirrors.aliyun.com/goproxy,https://goproxy.cn,https://goproxy.io,https://gocenter.io,https://proxy.golang.org,direct
 
-GOPROXY=http://10.14.41.53:8081,https://mirrors.aliyun.com/goproxy,https://goproxy.cn,https://goproxy.io,https://gocenter.io,https://proxy.golang.org,direct
+GOPROXY=http://localhost:8081/repository/go-proxy-group/,https://mirrors.aliyun.com/goproxy,https://goproxy.cn,https://goproxy.io,https://gocenter.io,https://proxy.golang.org,direct
 ```
 
 ### Usage
