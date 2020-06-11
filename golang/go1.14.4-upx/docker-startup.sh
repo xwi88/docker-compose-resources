@@ -6,4 +6,4 @@ source ./docker-version.sh
 echo "docker tag:${tag_name}"
 
 # docker volume need the absolute path
-docker run -it --name v8fg-go-test --rm ${tag_name}
+docker run -it --name xwi88-go-test --rm ${tag_name}
